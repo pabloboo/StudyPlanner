@@ -17,4 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Start app on VS Code
 VS code status bar (blue bar at the bottom of the window) -> No device -> select a device.
-Run -> start debugging (F5).
+Run -> start debugging (F5) (Having selected main.dart file). 
+
+## Debug painting
+View -> Command palette... -> Flutter: Toggle debug painting.
