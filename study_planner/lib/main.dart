@@ -1,5 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:study_planner/widgets/task_list_consumer.dart';
+import 'package:provider/provider.dart';
+import 'package:study_planner/providers/task_provider.dart';
+import 'package:study_planner/widgets/task_completed_list_consumer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,14 +17,17 @@ class MyApp extends StatelessWidget {
   // Root widget of the application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Study Planner',
-      theme: ThemeData(
-        // Theme of the application.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 78, 90, 85)),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => TaskProvider(), // Crea una instancia de TaskProvider
+      child: MaterialApp(
+        title: 'Study Planner',
+        theme: ThemeData(
+          // Theme of the application.
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 78, 90, 85)),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Study Planner'),
       ),
-      home: const MyHomePage(title: 'Study Planner'),
     );
   }
 }
@@ -34,14 +43,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  void _incrementCounter() {
-    setState(() {
-    });
-  }
-
   final CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+
+  bool _expanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(child: Text(widget.title)),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             color: const Color.fromARGB(255, 255, 255, 255),
@@ -87,15 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          SizedBox(
+            height: _expanded ? 200 : 50,
+            child: Container(
+              color: const Color.fromARGB(255, 207, 207, 207),
+              child: const TaskListCompletedConsumer(),
+            ),
+          ),
+          // Expanded(
+          //   child: Container(
+          //     color: const Color.fromARGB(255, 207, 207, 207),
+          //     child: const TaskListCompletedConsumer(),
+          //   ),
+          // ),
           Expanded(
             child: Container(
-              color: Colors.green,
-              child: const Center(
-                child: Text(
-                  'Section 2',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: TaskListConsumer(),
             ),
           ),
           Expanded(
@@ -111,11 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => (),
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
