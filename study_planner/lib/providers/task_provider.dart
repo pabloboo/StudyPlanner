@@ -23,4 +23,9 @@ class TaskProvider extends ChangeNotifier {
     _tasks.add(newTask);
     notifyListeners();
   }
+
+  void removeTask(Task task) {
+    _tasks.remove(task);
+    notifyListeners();
+  }
 }
