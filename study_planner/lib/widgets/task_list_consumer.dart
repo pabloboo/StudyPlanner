@@ -4,16 +4,22 @@ import 'package:study_planner/providers/task_provider.dart';
 import 'package:provider/provider.dart';
 
 class TaskListConsumer extends StatelessWidget {
-  const TaskListConsumer({super.key});
+  final DateTime? selectedDate;
+
+  const TaskListConsumer({Key? key, this.selectedDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskProvider>(
       builder: (context, taskProvider, _) {
+        List<Task> tasksForSelectedDate = taskProvider.tasks.where((task) {
+          return task.date.day == selectedDate!.day;
+        }).toList();
+
         return ListView.builder(
-          itemCount: taskProvider.tasks.length,
+          itemCount: tasksForSelectedDate.length,
           itemBuilder: (context, index) {
-            final Task task = taskProvider.tasks[index];
+            final Task task = tasksForSelectedDate[index];
             return ListTile(
               leading: Checkbox(
                 value: task.isCompleted,

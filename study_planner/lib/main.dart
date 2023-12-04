@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
 
   bool _isCompletedExpanded = false;
 
@@ -106,13 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
             height: _isCompletedExpanded ? 200 : 50,
             child: Container(
               color: const Color.fromARGB(255, 207, 207, 207),
-              child: TaskListCompletedConsumer(updateExpanded: updateCompletedExpanded,),
+              child: TaskListCompletedConsumer(updateExpanded: updateCompletedExpanded,
+              selectedDate: _selectedDay,),
             ),
           ),
           Expanded(
             child: Container(
               color: const Color.fromARGB(255, 255, 255, 255),
-              child: TaskListConsumer(),
+              child: TaskListConsumer(selectedDate: _selectedDay,),
             ),
           ),
           Expanded(
@@ -132,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () async {
             String? taskName = await AddTaskDialog.showAddTaskDialog(context);
             if (taskName != null) {
-              taskProvider.addTask(taskName);
+              taskProvider.addTask(taskName, _selectedDay!);
             }
           },
         tooltip: 'Añadir tarea',

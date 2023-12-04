@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:study_planner/providers/task_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:study_planner/screens/task_list.dart';
+import 'package:study_planner/models/task_model.dart';
 
 class TaskListCompletedConsumer extends StatefulWidget {
   final Function(bool) updateExpanded;
+  final DateTime? selectedDate;
 
-  const TaskListCompletedConsumer({Key? key, required this.updateExpanded}) : super(key: key);
+  const TaskListCompletedConsumer({Key? key, required this.updateExpanded, this.selectedDate}) : super(key: key);
 
   @override
   State<TaskListCompletedConsumer> createState() => _TaskListCompletedConsumerState();
@@ -19,6 +21,10 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
   Widget build(BuildContext context) {
     return Consumer<TaskProvider>(
       builder: (context, taskProvider, _) {
+        List<Task> tasksForSelectedDate = taskProvider.completedTasks.where((task) {
+          return task.date.day == widget.selectedDate!.day;
+        }).toList();
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -35,7 +41,7 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
             if (_isExpanded)
               Expanded(
                 child: TaskList(
-                  tasks: taskProvider.completedTasks,
+                  tasks: tasksForSelectedDate,
                   onTaskToggle: (task) {
                     taskProvider.toggleTaskCompletion(task);
                   },
