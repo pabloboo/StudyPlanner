@@ -6,6 +6,7 @@ import 'package:study_planner/widgets/task_list_consumer.dart';
 import 'package:provider/provider.dart';
 import 'package:study_planner/providers/task_provider.dart';
 import 'package:study_planner/widgets/task_completed_list_consumer.dart';
+import 'package:study_planner/widgets/add_task_dialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    TaskProvider taskProvider = Provider.of<TaskProvider>(context, listen: false);
+
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
@@ -125,11 +128,16 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => (),
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+            String? taskName = await AddTaskDialog.showAddTaskDialog(context);
+            if (taskName != null) {
+              taskProvider.addTask(taskName);
+            }
+          },
+        tooltip: 'Añadir tarea',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

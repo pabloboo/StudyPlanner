@@ -8,7 +8,6 @@ class TaskProvider extends ChangeNotifier {
     Task(title: 'Task 2'),
     Task(title: 'Task 3'),
     Task(title: 'Task 4'),
-    // ... Agregar más tareas según sea necesario
   ];
 
   List<Task> get tasks => _tasks.where((task) => !task.isCompleted).toList();
@@ -16,6 +15,12 @@ class TaskProvider extends ChangeNotifier {
 
   void toggleTaskCompletion(Task task) {
     task.isCompleted = !task.isCompleted;
+    notifyListeners();
+  }
+
+  void addTask(String taskName) {
+    Task newTask = Task(title: taskName);
+    _tasks.add(newTask);
     notifyListeners();
   }
 }
