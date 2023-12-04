@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:study_planner/screens/task_list.dart';
 
 class TaskListCompletedConsumer extends StatefulWidget {
+  final Function(bool) updateExpanded;
 
-  const TaskListCompletedConsumer({Key? key}) : super(key: key);
+  const TaskListCompletedConsumer({Key? key, required this.updateExpanded}) : super(key: key);
 
   @override
   State<TaskListCompletedConsumer> createState() => _TaskListCompletedConsumerState();
@@ -26,6 +27,7 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
               trailing: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
               onTap: () {
                 setState(() {
+                  widget.updateExpanded(!_isExpanded);
                   _isExpanded = !_isExpanded;
                 });
               },

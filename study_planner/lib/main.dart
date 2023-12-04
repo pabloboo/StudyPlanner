@@ -47,7 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  bool _expanded = true;
+  bool _isCompletedExpanded = false;
+
+  void updateCompletedExpanded(bool value) {
+    setState(() {
+      _isCompletedExpanded = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(
-            height: _expanded ? 200 : 50,
+            height: _isCompletedExpanded ? 200 : 50,
             child: Container(
               color: const Color.fromARGB(255, 207, 207, 207),
-              child: const TaskListCompletedConsumer(),
+              child: TaskListCompletedConsumer(updateExpanded: updateCompletedExpanded,),
             ),
           ),
-          // Expanded(
-          //   child: Container(
-          //     color: const Color.fromARGB(255, 207, 207, 207),
-          //     child: const TaskListCompletedConsumer(),
-          //   ),
-          // ),
           Expanded(
             child: Container(
               color: const Color.fromARGB(255, 255, 255, 255),
