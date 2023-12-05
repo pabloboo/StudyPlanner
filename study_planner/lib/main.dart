@@ -7,8 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:study_planner/providers/task_provider.dart';
 import 'package:study_planner/widgets/task_completed_list_consumer.dart';
 import 'package:study_planner/widgets/add_task_dialog.dart';
+import 'package:study_planner/models/task_model.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('es_ES', null);
+
   runApp(const MyApp());
 }
 
@@ -74,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             color: const Color.fromARGB(255, 255, 255, 255),
             child: TableCalendar(
+              locale: 'es_ES',
               firstDay: DateTime.utc(2021, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
               focusedDay: _focusedDay,
@@ -131,9 +136,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-            String? taskName = await AddTaskDialog.showAddTaskDialog(context);
-            if (taskName != null) {
-              taskProvider.addTask(taskName, _selectedDay!);
+            Task? task = await showDialog<Task>(
+              context: context,
+              builder: (BuildContext context) {
+                return AddTaskDialog();
+              },
+            );
+            if (task != null && task.title != '') {
+              taskProvider.addTask(task.title, _selectedDay!, task.isHabit);
             }
           },
         tooltip: 'Añadir tarea',
