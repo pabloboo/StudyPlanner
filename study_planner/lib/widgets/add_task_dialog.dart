@@ -12,6 +12,7 @@ class AddTaskDialog extends StatefulWidget {
 class _AddTaskDialogState extends State<AddTaskDialog> {
   TextEditingController taskController = TextEditingController();
   bool _isHabit = false;
+  bool _isWeekTask = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,25 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 onChanged: (value) {
                   setState(() {
                     _isHabit = value!;
+                    if (_isHabit) {
+                      _isWeekTask = false;
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Text('Tarea para esta semana'),
+              Checkbox(
+                value: _isWeekTask,
+                onChanged: (value) {
+                  setState(() {
+                    _isWeekTask = value!;
+                    if (_isWeekTask) {
+                      _isHabit = false;
+                    }
                   });
                 },
               ),
@@ -50,7 +70,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
           child: const Text('Agregar'),
           onPressed: () {
             String? taskName = taskController.text.trim();
-            Task task = Task(title: taskName, date: DateTime.now(), isHabit: _isHabit);
+            Task task = Task(title: taskName, date: DateTime.now(), isHabit: _isHabit, isWeekTask: _isWeekTask);
             if (taskName.isNotEmpty) {
               Navigator.of(context).pop(task);
             }

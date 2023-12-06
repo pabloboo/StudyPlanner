@@ -18,19 +18,19 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTask(String taskName, DateTime taskDate, bool isHabit ) {
+  void addTask(String taskName, DateTime taskDate, bool isHabit, bool isWeekTask) {
     if (!isHabit) {
-      Task newTask = Task(title: taskName, date: taskDate, isHabit: isHabit);
+      Task newTask = Task(title: taskName, date: taskDate, isHabit: isHabit, isWeekTask: isWeekTask);
       _tasks.add(newTask);
     } else {
       DateTime currentDate = taskDate;
-      DateTime nextSunday = currentDate.add(Duration(days: DateTime.sunday - currentDate.weekday));
+      DateTime nextSunday = currentDate.add(Duration(days: DateTime.sunday - currentDate.weekday + 1));
 
       // Itera sobre los días y crea una tarea para cada uno hasta el próximo domingo
       while (currentDate.isBefore(nextSunday)) {
         Task newTask = Task(title: taskName, date: currentDate, isHabit: isHabit);
         _tasks.add(newTask);
-        currentDate = currentDate.add(Duration(days: 1));
+        currentDate = currentDate.add(const Duration(days: 1));
       }
     }
     notifyListeners();

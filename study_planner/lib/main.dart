@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:study_planner/providers/task_provider.dart';
 import 'package:study_planner/widgets/task_completed_list_consumer.dart';
 import 'package:study_planner/widgets/add_task_dialog.dart';
+import 'package:study_planner/widgets/task_week_list.dart';
 import 'package:study_planner/models/task_model.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -107,6 +108,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          Text('Hoy',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           SizedBox(
             height: _isCompletedExpanded ? 200 : 50,
             child: Container(
@@ -121,15 +128,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TaskListConsumer(selectedDate: _selectedDay,),
             ),
           ),
+          Text('Esta semana',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Expanded(
             child: Container(
-              color: Colors.orange,
-              child: const Center(
-                child: Text(
-                  'Section 3',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: TaskWeekList(selectedDate: _selectedDay,),
             ),
           ),
         ],
@@ -143,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             );
             if (task != null && task.title != '') {
-              taskProvider.addTask(task.title, _selectedDay!, task.isHabit);
+              taskProvider.addTask(task.title, _selectedDay!, task.isHabit, task.isWeekTask);
             }
           },
         tooltip: 'Añadir tarea',

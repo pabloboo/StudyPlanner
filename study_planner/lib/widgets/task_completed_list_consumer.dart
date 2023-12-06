@@ -22,7 +22,9 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
     return Consumer<TaskProvider>(
       builder: (context, taskProvider, _) {
         List<Task> tasksForSelectedDate = taskProvider.completedTasks.where((task) {
-          return task.date.day == widget.selectedDate!.day;
+          return task.date.day == widget.selectedDate!.day &&
+            task.date.month == widget.selectedDate!.month &&
+            task.date.year == widget.selectedDate!.year;
         }).toList();
 
         return Column(
@@ -44,6 +46,9 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
                   tasks: tasksForSelectedDate,
                   onTaskToggle: (task) {
                     taskProvider.toggleTaskCompletion(task);
+                  },
+                  onTaskDeletion: (task) {
+                    taskProvider.removeTask(task);
                   },
                 ),
               ),
