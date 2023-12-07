@@ -5,17 +5,19 @@ import 'package:study_planner/screens/task_list.dart';
 import 'package:study_planner/models/task_model.dart';
 
 class TaskListCompletedConsumer extends StatefulWidget {
-  final Function(bool) updateExpanded;
   final DateTime? selectedDate;
 
-  const TaskListCompletedConsumer({Key? key, required this.updateExpanded, this.selectedDate}) : super(key: key);
+  const TaskListCompletedConsumer({
+    Key? key,
+    this.selectedDate,
+  }) : super(key: key);
 
   @override
   State<TaskListCompletedConsumer> createState() => _TaskListCompletedConsumerState();
 }
 
 class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
-  bool _isExpanded = true;
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
       builder: (context, taskProvider, _) {
         List<Task> tasksForSelectedDate = taskProvider.completedTasks.where((task) {
           return task.date.day == widget.selectedDate!.day &&
-            task.date.month == widget.selectedDate!.month &&
-            task.date.year == widget.selectedDate!.year;
+              task.date.month == widget.selectedDate!.month &&
+              task.date.year == widget.selectedDate!.year;
         }).toList();
 
         return Column(
@@ -35,17 +37,18 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
               trailing: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
               onTap: () {
                 setState(() {
-                  widget.updateExpanded(!_isExpanded); //call main.dart function to adjust height of dropdown element
                   _isExpanded = !_isExpanded;
                 });
               },
             ),
-            if (_isExpanded)
-              Expanded(
-                child: TaskList(
-                  tasks: tasksForSelectedDate,
-                ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              height: _isExpanded ? MediaQuery.of(context).size.height * 0.25 : 0, // height for expanded/not expanded tasks
+              child: TaskList(
+                tasks: tasksForSelectedDate,
               ),
+            ),
           ],
         );
       },

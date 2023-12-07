@@ -12,7 +12,7 @@ StudyPlanner is a mobile task and habit management application designed specific
 
 ## Installation
 
-1. Install Flutter and set up your development environment.
+1. Install Flutter and set up your development environment. https://docs.flutter.dev/get-started/install
 2. Clone this repository.
 3. Open the project in your preferred IDE or code editor.
 4. Run the application using Flutter. VS code status bar (blue bar at the bottom of the window) -> No device -> select a device. In VS Code: Run -> start debugging (F5) (Having selected main.dart file).
