@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:study_planner/models/task_model.dart';
+import 'package:study_planner/providers/task_provider.dart';
 
 class TaskList extends StatelessWidget {
   final List<Task> tasks;
-  final Function(Task) onTaskToggle;
-  final Function(Task) onTaskDeletion;
 
   const TaskList({
     Key? key,
     required this.tasks,
-    required this.onTaskToggle,
-    required this.onTaskDeletion,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TaskProvider taskProvider = Provider.of<TaskProvider>(context, listen: false);
     return ListView.separated(
       itemCount: tasks.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(
@@ -33,7 +32,7 @@ class TaskList extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {
-                  onTaskDeletion(task);
+                  taskProvider.removeTask(task);
                 },
               ),
             ],
@@ -41,7 +40,7 @@ class TaskList extends StatelessWidget {
           leading: Checkbox(
             value: task.isCompleted,
             onChanged: (_) {
-              onTaskToggle(task); // Llama a la función proporcionada para cambiar el estado de la tarea
+              taskProvider.toggleTaskCompletion(task);
             },
           ),
         );

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:study_planner/widgets/task_list_consumer.dart';
@@ -74,7 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(child: Text(widget.title)),
       ),
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             color: const Color.fromARGB(255, 255, 255, 255),
@@ -108,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Text('Hoy',
+          const Text('Hoy',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -128,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TaskListConsumer(selectedDate: _selectedDay,),
             ),
           ),
-          Text('Esta semana',
+          const Text('Esta semana',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -147,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Task? task = await showDialog<Task>(
               context: context,
               builder: (BuildContext context) {
-                return AddTaskDialog();
+                return const AddTaskDialog(); //Form which retrieves a Task
               },
             );
             if (task != null && task.title != '') {

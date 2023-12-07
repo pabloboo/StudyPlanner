@@ -21,13 +21,7 @@ class TaskListConsumer extends StatelessWidget {
         }).toList();
 
         return TaskList(
-          tasks: tasksForSelectedDate, 
-          onTaskToggle: (task) {
-            taskProvider.toggleTaskCompletion(task);
-          },
-          onTaskDeletion: (task) {
-            taskProvider.removeTask(task);
-          },
+          tasks: tasksForSelectedDate,
         );
       },
     );

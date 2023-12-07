@@ -35,7 +35,7 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
               trailing: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
               onTap: () {
                 setState(() {
-                  widget.updateExpanded(!_isExpanded);
+                  widget.updateExpanded(!_isExpanded); //call main.dart function to adjust height of dropdown element
                   _isExpanded = !_isExpanded;
                 });
               },
@@ -44,12 +44,6 @@ class _TaskListCompletedConsumerState extends State<TaskListCompletedConsumer> {
               Expanded(
                 child: TaskList(
                   tasks: tasksForSelectedDate,
-                  onTaskToggle: (task) {
-                    taskProvider.toggleTaskCompletion(task);
-                  },
-                  onTaskDeletion: (task) {
-                    taskProvider.removeTask(task);
-                  },
                 ),
               ),
           ],

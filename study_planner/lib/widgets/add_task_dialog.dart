@@ -5,11 +5,10 @@ class AddTaskDialog extends StatefulWidget {
   const AddTaskDialog({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AddTaskDialogState createState() => _AddTaskDialogState();
+  AddTaskDialogState createState() => AddTaskDialogState();
 }
 
-class _AddTaskDialogState extends State<AddTaskDialog> {
+class AddTaskDialogState extends State<AddTaskDialog> {
   TextEditingController taskController = TextEditingController();
   bool _isHabit = false;
   bool _isWeekTask = false;
@@ -33,7 +32,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 onChanged: (value) {
                   setState(() {
                     _isHabit = value!;
-                    if (_isHabit) {
+                    if (_isHabit) { //Only one can be checked to true
                       _isWeekTask = false;
                     }
                   });
@@ -49,7 +48,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 onChanged: (value) {
                   setState(() {
                     _isWeekTask = value!;
-                    if (_isWeekTask) {
+                    if (_isWeekTask) { //Only one can be checked to true
                       _isHabit = false;
                     }
                   });
