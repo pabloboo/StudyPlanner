@@ -41,6 +41,8 @@ Contributions to StudyPlanner are welcome! Feel free to open issues, submit pull
 
 - **`providers/`**: Holds classes or files related to state and data management (using patterns like Provider, Bloc, Redux, etc.)
 
+- **`storage/`**: Contains code to store data locally
+
 ## Contact
 
 For any questions, suggestions, or support, feel free to contact the developer at booiglesiaspablo@gmail.com.
