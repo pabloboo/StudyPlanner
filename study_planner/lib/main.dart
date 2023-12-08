@@ -8,6 +8,7 @@ import 'package:study_planner/widgets/add_task_dialog.dart';
 import 'package:study_planner/widgets/task_week_list.dart';
 import 'package:study_planner/models/task_model.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:study_planner/storage/task_storage.dart';
 
 void main() async {
   await initializeDateFormatting('es_ES', null);
@@ -54,6 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     TaskProvider taskProvider = Provider.of<TaskProvider>(context, listen: false);
+    TaskStorage.loadTasks().then((tasks) { //load tasks
+      taskProvider.loadTasksFromStorage(tasks);
+    },);
 
     // This method is rerun every time setState is called
     return Scaffold(
