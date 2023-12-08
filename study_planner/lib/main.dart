@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:study_planner/widgets/task_list_consumer.dart';
+import 'package:provider/provider.dart';
+import 'package:study_planner/providers/task_provider.dart';
+import 'package:study_planner/widgets/task_completed_list_consumer.dart';
+import 'package:study_planner/widgets/add_task_dialog.dart';
+import 'package:study_planner/widgets/task_week_list.dart';
+import 'package:study_planner/models/task_model.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('es_ES', null);
+
   runApp(const MyApp());
 }
 
@@ -11,14 +21,17 @@ class MyApp extends StatelessWidget {
   // Root widget of the application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Study Planner',
-      theme: ThemeData(
-        // Theme of the application.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 78, 90, 85)),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => TaskProvider(), // Crea una instancia de TaskProvider
+      child: MaterialApp(
+        title: 'Study Planner',
+        theme: ThemeData(
+          // Theme of the application.
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 78, 90, 85)),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'Study Planner'),
       ),
-      home: const MyHomePage(title: 'Study Planner'),
     );
   }
 }
@@ -34,17 +47,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  void _incrementCounter() {
-    setState(() {
-    });
-  }
-
   final CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  DateTime? _selectedDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    TaskProvider taskProvider = Provider.of<TaskProvider>(context, listen: false);
+
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
@@ -54,11 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(child: Text(widget.title)),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
             color: const Color.fromARGB(255, 255, 255, 255),
             child: TableCalendar(
+              locale: 'es_ES',
               firstDay: DateTime.utc(2021, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
               focusedDay: _focusedDay,
@@ -87,35 +97,55 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Expanded(
+          const Text('Hoy',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
             child: Container(
-              color: Colors.green,
-              child: const Center(
-                child: Text(
-                  'Section 2',
-                  style: TextStyle(fontSize: 24),
-                ),
+              color: const Color.fromARGB(255, 207, 207, 207),
+              child: TaskListCompletedConsumer(
+                selectedDate: _selectedDay,
               ),
             ),
           ),
           Expanded(
             child: Container(
-              color: Colors.orange,
-              child: const Center(
-                child: Text(
-                  'Section 3',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: TaskListConsumer(selectedDate: _selectedDay,),
+            ),
+          ),
+          const Text('Esta semana',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: TaskWeekList(selectedDate: _selectedDay,),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () async {
+            Task? task = await showDialog<Task>(
+              context: context,
+              builder: (BuildContext context) {
+                return const AddTaskDialog(); //Form which retrieves a Task
+              },
+            );
+            if (task != null && task.title != '') {
+              taskProvider.addTask(task.title, _selectedDay!, task.isHabit, task.isWeekTask);
+            }
+          },
+        tooltip: 'Añadir tarea',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
