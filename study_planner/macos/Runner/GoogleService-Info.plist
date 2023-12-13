@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>645166787140-7c2f6n871gkcnnt3d0d7v3ks9pqlpk8k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.645166787140-7c2f6n871gkcnnt3d0d7v3ks9pqlpk8k</string>
+	<key>API_KEY</key>
+	<string>AIzaSyARukVEO-gCs9gKvpv3TNzH9qlheP9dw2w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>645166787140</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.studyPlanner.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>studyplanner-e1a63</string>
+	<key>STORAGE_BUCKET</key>
+	<string>studyplanner-e1a63.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:645166787140:ios:540e5081512a972ab36a11</string>
+</dict>
+</plist>

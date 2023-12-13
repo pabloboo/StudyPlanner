@@ -15,6 +15,7 @@ class TaskWeekList extends StatelessWidget {
     return Consumer<TaskProvider>(
       builder: (context, taskProvider, _) {
 
+        // ignore: no_leading_underscores_for_local_identifiers
         int _getWeekNumber(DateTime date) {
           int dayOfYear = int.parse(DateFormat("D").format(date));
           return ((dayOfYear - date.weekday + 10) / 7).floor();
