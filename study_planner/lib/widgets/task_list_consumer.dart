@@ -7,7 +7,7 @@ import 'package:study_planner/screens/task_list.dart';
 class TaskListConsumer extends StatelessWidget {
   final DateTime? selectedDate;
 
-  const TaskListConsumer({Key? key, this.selectedDate}) : super(key: key);
+  const TaskListConsumer({super.key, this.selectedDate});
 
   @override
   Widget build(BuildContext context) {

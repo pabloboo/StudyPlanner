@@ -8,9 +8,9 @@ class TaskListCompletedConsumer extends StatefulWidget {
   final DateTime? selectedDate;
 
   const TaskListCompletedConsumer({
-    Key? key,
+    super.key,
     this.selectedDate,
-  }) : super(key: key);
+  });
 
   @override
   State<TaskListCompletedConsumer> createState() => _TaskListCompletedConsumerState();

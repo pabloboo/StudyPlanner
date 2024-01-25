@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class MainScreen extends StatefulWidget {
   final User? user;
 
-  const MainScreen({Key? key, this.user,}) : super(key: key);
+  const MainScreen({super.key, this.user,});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -132,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
               },
             );
             if (task != null && task.title != '') {
-              taskProvider.addTask(task.title, _selectedDay!, task.isHabit, task.isWeekTask);
+              taskProvider.addTask(task.title, _selectedDay!, widget.user!.email!, task.isHabit, task.isWeekTask);
             }
           },
         tooltip: 'Añadir tarea',
