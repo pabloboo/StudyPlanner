@@ -69,7 +69,7 @@ class AddTaskDialogState extends State<AddTaskDialog> {
           child: const Text('Agregar'),
           onPressed: () {
             String? taskName = taskController.text.trim();
-            Task task = Task(title: taskName, date: DateTime.now(), isHabit: _isHabit, isWeekTask: _isWeekTask);
+            Task task = Task(title: taskName, date: DateTime.now(), email: '', isHabit: _isHabit, isWeekTask: _isWeekTask);
             if (taskName.isNotEmpty) {
               Navigator.of(context).pop(task);
             }

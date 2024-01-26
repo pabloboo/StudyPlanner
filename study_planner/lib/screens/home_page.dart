@@ -7,7 +7,7 @@ import 'package:study_planner/services/auth_services.dart';
 import 'package:study_planner/screens/main_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
