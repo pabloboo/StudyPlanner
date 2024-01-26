@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Task {
+  final String? id;
   final String title;
   final DateTime date;
   final String email;
@@ -7,6 +10,7 @@ class Task {
   bool isWeekTask;
 
   Task({
+    this.id,
     required this.title,
     required this.date,
     required this.email,
@@ -26,8 +30,9 @@ class Task {
     };
   }
 
-  factory Task.fromJson(Map<String, dynamic> json) { // JSON to Task
+  factory Task.fromJson(DocumentSnapshot<Map<String, dynamic>> json) { // JSON to Task
     return Task(
+      id: json.id,
       title: json['title'],
       date: DateTime.parse(json['date']),
       email: json['email'],

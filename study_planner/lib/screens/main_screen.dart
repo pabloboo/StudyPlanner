@@ -8,7 +8,6 @@ import 'package:study_planner/widgets/task_completed_list_consumer.dart';
 import 'package:study_planner/widgets/add_task_dialog.dart';
 import 'package:study_planner/widgets/task_week_list.dart';
 import 'package:study_planner/models/task_model.dart';
-import 'package:study_planner/storage/task_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MainScreen extends StatefulWidget {
@@ -29,9 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     TaskProvider taskProvider = Provider.of<TaskProvider>(context, listen: false);
-    TaskStorage.loadTasks().then((tasks) { //load tasks
-      taskProvider.loadTasksFromStorage(tasks);
-    },);
+    //taskProvider.loadTasksFromStorage(widget.user!);
 
     // This method is rerun every time setState is called
     return Scaffold(
@@ -55,73 +52,84 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            color: const Color.fromARGB(255, 255, 255, 255),
-            child: TableCalendar(
-              locale: 'es_ES',
-              firstDay: DateTime.utc(2021, 1, 1),
-              lastDay: DateTime.utc(2030, 12, 31),
-              focusedDay: _focusedDay,
-              calendarFormat: _calendarFormat,
-              availableCalendarFormats: {_calendarFormat: _calendarFormat.name}, // Only show week format
-              headerStyle: const HeaderStyle(
-                leftChevronVisible: false,
-                rightChevronVisible: false,
-                headerPadding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0),
-                formatButtonVisible: false,
-              ),
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
-              },
-              calendarStyle: const CalendarStyle(
-                selectedDecoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
+      body: FutureBuilder(
+        future: taskProvider.loadTasksFromStorage(widget.user!),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else { 
+            return Column(
+              children: <Widget>[
+                Container(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  child: TableCalendar(
+                    locale: 'es_ES',
+                    firstDay: DateTime.utc(2021, 1, 1),
+                    lastDay: DateTime.utc(2030, 12, 31),
+                    focusedDay: _focusedDay,
+                    calendarFormat: _calendarFormat,
+                    availableCalendarFormats: {_calendarFormat: _calendarFormat.name}, // Only show week format
+                    headerStyle: const HeaderStyle(
+                      leftChevronVisible: false,
+                      rightChevronVisible: false,
+                      headerPadding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0),
+                      formatButtonVisible: false,
+                    ),
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    },
+                    calendarStyle: const CalendarStyle(
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          const Text('Hoy',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            child: Container(
-              color: const Color.fromARGB(255, 207, 207, 207),
-              child: TaskListCompletedConsumer(
-                selectedDate: _selectedDay,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              child: TaskListConsumer(selectedDate: _selectedDay,),
-            ),
-          ),
-          const Text('Esta semana',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              child: TaskWeekList(selectedDate: _selectedDay,),
-            ),
-          ),
-        ],
+                const Text('Hoy',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  child: Container(
+                    color: const Color.fromARGB(255, 207, 207, 207),
+                    child: TaskListCompletedConsumer(
+                      selectedDate: _selectedDay, user: widget.user
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: TaskListConsumer(selectedDate: _selectedDay, user: widget.user),
+                  ),
+                ),
+                const Text('Esta semana',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    child: TaskWeekList(selectedDate: _selectedDay, user: widget.user),
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
