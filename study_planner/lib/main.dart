@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:study_planner/providers/task_provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:study_planner/screens/home_page.dart';
+import 'package:study_planner/screens/introduction/introduction_screen_page';
 import 'firebase_options.dart';
 
 void main() async {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 78, 90, 85)),
           useMaterial3: true,
         ),
-        home: const HomePage(),
+        home: IntroductionScreenPage(),
       ),
     );
   }
