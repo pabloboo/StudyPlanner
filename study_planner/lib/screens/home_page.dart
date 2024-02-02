@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Google SignIn"),
+        title: const Text("Inicio de sesión"),
       ),
       body: googleSignInButton(),
     );
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         height: 50,
         child: SignInButton(
           Buttons.google,
-          text: "Sign up with Google",
+          text: "Cuenta de Google",
           onPressed: () async {
             UserCredential? userCredential = await _authServices.signInWithGoogle();
             if (userCredential != null) {
