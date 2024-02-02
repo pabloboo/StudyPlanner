@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:study_planner/screens/home_page.dart';
+
+class IntroductionScreenPage extends StatelessWidget {
+  final GlobalKey<IntroductionScreenState> _introKey = GlobalKey<IntroductionScreenState>();
+
+  void _onIntroDone(BuildContext context) {
+    // Navegar a la pantalla de inicio (HomePage) cuando se presiona el botón "Done"
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const pageDecoration = const PageDecoration(
+      pageColor: Colors.green,
+      titleTextStyle: TextStyle(color: Colors.white, fontSize: 28.0, fontWeight: FontWeight.bold),
+      bodyTextStyle: TextStyle(color: Colors.white, fontSize: 18.0),
+      imageFlex: 2,
+      imagePadding: EdgeInsets.only(top: 20.0),
+    );
+
+    return IntroductionScreen(
+      key: _introKey,
+      pages: [
+        PageViewModel(
+          title: "Añade tareas",
+          body: "Crea una nueva tarea para el día que estás seleccionando",
+          image: Image.asset("assets/addTask.png"),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Hábitos",
+          body: "Crea una tarea 'hábito' que creará tareas con el nombre indicado para todos los días hasta el siguiente domingo",
+          image: Image.asset("assets/addHabit.png"),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Tareas semanales",
+          body: "Crea una tarea semanal que aparecerá en la sección 'esta semana' en todos los días de esa semana",
+          image: Image.asset("assets/addWeekTask.png"),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Página principal",
+          body: "Puedes ver todas las tareas creadas y marcar como completadas las tareas realizadas",
+          image: Image.asset("assets/homePage.png"),
+          decoration: pageDecoration,
+        ),
+      ],
+      showSkipButton: true,
+      skip: const Text("Skip"),
+      next: const Text("Next"),
+      done: const Text("Done"),
+      onDone: () => _onIntroDone(context),
+    );
+  }
+}

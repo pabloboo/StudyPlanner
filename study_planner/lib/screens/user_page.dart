@@ -56,7 +56,7 @@ class _UserPageState extends State<UserPage> {
                 MaterialPageRoute(builder: (context) => const HomePage()),
               );
             },
-            child: const Text("Sign Out"),
+            child: const Text("Cerrar sesión"),
           )
         ],
       ),
